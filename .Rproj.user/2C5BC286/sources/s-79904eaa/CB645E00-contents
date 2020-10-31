@@ -1,0 +1,117 @@
+---
+title: "Mapping Inequality"
+author: "Anna Ramji & Jake McCurdy"
+date: "10/28/2020"
+output: html_document
+---
+
+### From "The ecological and evolutionary consequences of systemic racism" 
+
+**Hello!** In order to understand how to read and interpret these interactive maps, you'll want to understand the metrics that we're using. 
+
+**Holc Grade** systematically grades each neighborhood (as defined by historic trends in **redlining** from 1950) from A to D:
+-  **A: "Best"**
+-  **B: "Still Desirable"**
+-  **C: "Definitely Declining"**
+-  **D: "Hazardous"**
+ 
+ Sources:  
+- <https://ncrc.org/holc-health/> 
+- <https://ncrc.org/holc> 
+
+ 
+**Normalized Difference Vegetation Index (NDVI)** (raster data)
+is used as proxy measure of vegetation health, cover and phenology (life cycle stage) over large areas. It is calculated using multiple bands from satellite images. Values closer to 1 indicate presence of vegetation, while near-zero values indicate water and the range between is a range from high density or presence of vegetation to no vegetation present.  
+
+
+```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, 
+                      warning = FALSE, results = "hide",
+                      cache = TRUE)
+
+# install.packages(c("tmap", "raster", "sf")) 
+library(tmap)      #interactive maps, raster + vector layers
+library(raster)       #Main raster library
+library(tidyverse)    #our old friend
+library(sf)           #to work with simple features data
+
+tmp <- tempfile()
+download.file("https://dsl.richmond.edu/panorama/redlining/static/fullshpfile.zip", tmp)
+unzip(tmp)
+
+tmp <- tempfile()
+download.file("https://data.ca.gov/dataset/e212e397-1277-4df3-8c22-40721b095f33/resource/b0007416-a325-4777-9295-368ea6b710e6/download/ca-county-boundaries.zip", tmp) 
+unzip(tmp)
+```
+
+## Birmingham 
+### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, and Total NDVI (shows NDVI for each pixel of area 30m x 30m)
+
+```{r Birmingham, results="markup", cache = FALSE, echo=FALSE}
+
+holc <- st_read("fullshpfile/shapefile/holc_ad_data.shp")
+
+
+holc_birmingham <- holc %>%
+  filter(city == "Birmingham")
+
+ndvi_birmingham <- raster("../geospatial-mccurdy-ramji/data/NDVI/composite_birmingham.tif")
+
+# Birmingham shp & NDVI
+shp_birmingham <- holc %>% filter(city == "Birmingham")
+
+mean_ndvi_birmingham <-
+  holc_birmingham %>%
+  mutate(mean_ndvi = raster::extract(ndvi_birmingham, holc_birmingham, fun = mean)) 
+
+mean_ndvi_birmingham <- 
+  mean_ndvi_birmingham %>% 
+  mutate(mean_ndvi = as.numeric(mean_ndvi))
+
+tmap_mode("view")
+tm_shape(shp_birmingham) +
+  tm_polygons("holc_grade", palette = "Reds", alpha=0.4) +
+  tm_shape(ndvi_birmingham) +
+  tm_raster(alpha=0.7) +
+  tm_shape(mean_ndvi_birmingham) +
+  tm_polygons(col = "mean_ndvi")
+
+```
+
+## San Francisco 
+### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, Total NDVI (shows NDVI for each pixel of area 30m x 30m) 
+
+```{r San Francisco, results="markup", cache = FALSE, echo=FALSE}
+
+holc_SF <- holc %>%
+  filter(city == "San Francisco")
+
+
+shp_SF <- holc %>% filter(city == "San Francisco") %>% select(holc_grade, geometry) 
+
+
+ndvi_SF <- raster("../geospatial-mccurdy-ramji/data/NDVI/composite_SF.tif")
+
+
+mean_ndvi_SF <-
+  holc_SF %>%
+  mutate(mean_ndvi = raster::extract(ndvi_SF, holc_SF, fun = mean)) 
+
+
+mean_ndvi_SF <- 
+  mean_ndvi_SF %>% 
+  mutate(mean_ndvi = as.numeric(mean_ndvi))
+
+
+tmap_mode("view")
+tm_shape(shp_SF) +
+  tm_polygons("holc_grade", palette = "Reds", alpha=0.4) + 
+  tm_shape(ndvi_SF) +
+  tm_raster(style = "cont", palette = "Greens", alpha = 0.6) +
+  tm_shape(mean_ndvi_SF) +
+  tm_polygons(col = "mean_ndvi")
+
+```
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1604181616551.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "345F9296",
+    "lastKnownWriteTime" : 1604181582,
+    "last_content_update" : 1604181582,
+    "path" : "~/interactive-maps/interactive-maps.html",
+    "project_path" : "interactive-maps.html",
+    "properties" : {
+        "cursorPosition" : "2,6",
+        "scrollLine" : "0"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "html"
+}
