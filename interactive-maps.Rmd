@@ -31,8 +31,8 @@ is used as proxy measure of vegetation health, cover and phenology (life cycle s
 
 ```{r setup, echo = FALSE, message = FALSE, warning = FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, 
-                      warning = FALSE, results = "hide",
-                      cache = TRUE)
+                      warning = FALSE, results = "hide")
+# hiding this chunk because we only want to show the graphs - using echo = FALSE to hide the code for all chunks, using results = "hide" to hide this whole chunk.
 
 # install.packages(c("tmap", "raster", "sf")) 
 library(tmap)      #interactive maps, raster + vector layers
@@ -53,7 +53,7 @@ unzip(tmp)
 ### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, and Total NDVI 
 *(shows NDVI for each pixel of area 30 m  x  30 m)*
 
-```{r Birmingham, results="markup", cache = FALSE, echo=FALSE}
+```{r Birmingham, results="markup", cache=FALSE}
 
 holc <- st_read("fullshpfile/shapefile/holc_ad_data.shp")
 
@@ -88,7 +88,7 @@ tm_shape(shp_birmingham) +
 ### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, Total NDVI 
 *(shows NDVI for each pixel of area 30 m  x  30 m)*  
 
-```{r San Francisco, results="markup", cache = FALSE, echo=FALSE}
+```{r San Francisco, results="markup", cache=FALSE}
 
 holc_SF <- holc %>%
   filter(city == "San Francisco")
