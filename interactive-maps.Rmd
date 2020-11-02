@@ -10,13 +10,18 @@ output: html_document
 **Hello!** In order to understand how to read and interpret these interactive maps, you'll want to understand the metrics that we're using. 
 
 **Holc Grade** systematically grades each neighborhood (as defined by historic trends in **redlining** from 1950) from A to D:
+
 -  **A: "Best"**
+
 -  **B: "Still Desirable"**
+
 -  **C: "Definitely Declining"**
+
 -  **D: "Hazardous"**
  
  Sources:  
 - <https://ncrc.org/holc-health/> 
+& 
 - <https://ncrc.org/holc> 
 
  
@@ -45,7 +50,8 @@ unzip(tmp)
 ```
 
 ## Birmingham 
-### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, and Total NDVI (shows NDVI for each pixel of area 30m x 30m)
+### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, and Total NDVI 
+*(shows NDVI for each pixel of area 30 m  x  30 m)*
 
 ```{r Birmingham, results="markup", cache = FALSE, echo=FALSE}
 
@@ -79,7 +85,8 @@ tm_shape(shp_birmingham) +
 ```
 
 ## San Francisco 
-### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, Total NDVI (shows NDVI for each pixel of area 30m x 30m) 
+### 3 Layers: Holc Grade for each neighborhood, Mean NDVI for each neighborhood, Total NDVI 
+*(shows NDVI for each pixel of area 30 m  x  30 m)*  
 
 ```{r San Francisco, results="markup", cache = FALSE, echo=FALSE}
 
